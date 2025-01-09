@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Text Summarizer</h1>
+        
+        <div class="input-section">
+            <h2>Input Text</h2>
+            <textarea id="input-text" placeholder="Enter your text here..." maxlength="50000"></textarea>
+            <button onclick="summarizeText()">Summarize</button>
+        </div>
+
+        <div class="output-section">
+            <h2>Summary</h2>
+            <div id="summary-output" class="output-box"></div>
+        </div>
+
+        <div id="loading" class="loading">Summarizing...</div>
+    </div>
+
+    <script>
+        async function summarizeText() {
+            const inputText = document.getElementById('input-text').value;
+            const loading = document.getElementById('loading');
+            const summaryOutput = document.getElementById('summary-output');
+
+            if (!inputText.trim()) {
+                alert('Please enter some text to summarize');
+                return;
+            }
+
+            loading.style.display = 'block';
+            summaryOutput.innerHTML = '';
+
+            try {
+                const response = await fetch('/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: inputText })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    summaryOutput.innerHTML = data.summary;
+                } else {
+                    summaryOutput.innerHTML = `Error: ${data.error}`;
+                }
+            } catch (error) {
+                summaryOutput.innerHTML = `Error: ${error.message}`;
+                console.error('Error:', error);
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
