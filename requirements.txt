@@ -1,0 +1,5 @@
+flask==2.0.1
+transformers==4.30.2
+torch==2.0.1
+nltk==3.8.1
+watchdog==2.1.9
