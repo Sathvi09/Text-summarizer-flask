@@ -13,7 +13,7 @@ A Flask-based web application that provides text summarization using the Hugging
 
 1. Clone the repository: 
 - git clone https://github.com/Sathvi09/Text-summarizer-flask.git
-- cd flask_text_summarizer
+- cd Text-summarizer-flask
 
 2. Install the dependencies:
 pip install -r requirements.txt
